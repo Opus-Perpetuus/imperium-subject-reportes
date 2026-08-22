@@ -1,0 +1,50 @@
+import { define_crud, define_module } from "@opus-perpetuus/imperium-core-kit";
+import { reports_pdf_setting_pages } from "./reports-pdf-setting.pages.ts";
+import { reports_pdf_setting_tables } from "./reports-pdf-setting.tables.ts";
+
+export const reports_pdf_setting_module = define_module({
+  resource: "reports-pdf-setting",
+  labels: {
+    singular: "Configuración de Página PDF",
+    plural: "Configuración de Página PDF",
+    read: "Ver Configuración de Página PDF",
+    write: "Editar Configuración de Página PDF",
+  },
+  routes: define_crud({
+    resource: "reports-pdf-setting",
+    table: "reports_pdf_setting",
+    soft_delete: true,
+    soft_delete_field: "is_active",
+    history: true,
+    default_sort: "name:asc",
+    id_prefix: "reports-",
+    fields: {
+      name: { type: "string", required: true, search: true },
+      description: { type: "string", search: true },
+      is_active: { type: "boolean" },
+      state: { type: "string" },
+      ref: { type: "string", search: true },
+      search_field: { type: "string", search: true },
+      created_by: { type: "string" },
+      custom_data: { type: "json" },
+      payload: { type: "json" },
+      page_size_preset: { type: "string", search: true },
+      orientation: { type: "string", search: true },
+      custom_width_mm: { type: "number" },
+      custom_height_mm: { type: "number" },
+      margin_top_mm: { type: "number" },
+      margin_right_mm: { type: "number" },
+      margin_bottom_mm: { type: "number" },
+      margin_left_mm: { type: "number" },
+      print_background: { type: "boolean" },
+      prefer_css_page_size: { type: "boolean" },
+      display_header_footer: { type: "boolean" },
+      scale_percent: { type: "number" },
+      mirror_margins: { type: "boolean" },
+    },
+    options_map: { value: "id", label: "name" },
+  }),
+  tables: reports_pdf_setting_tables,
+  pages: reports_pdf_setting_pages,
+  menu: [],
+});

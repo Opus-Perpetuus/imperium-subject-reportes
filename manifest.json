@@ -1,0 +1,78 @@
+{
+  "id": "SUBJECT-reportes",
+  "technicalId": "subject-reportes",
+  "name": "Reportes",
+  "version": "0.1.0",
+  "image": "ghcr.io/opus-perpetuus/subject-reportes:0.1.0",
+  "compat": {
+    "nox": ">=0.5.0",
+    "kit": "^0.5.0"
+  },
+  "api": {
+    "basePath": "/",
+    "port": 3000,
+    "healthPath": "/health"
+  },
+  "permissions": [
+    {
+      "id": "subject.reportes.reports.read",
+      "label": "Ver Plantillas de Reporte"
+    },
+    {
+      "id": "subject.reportes.reports.write",
+      "label": "Editar Plantillas de Reporte"
+    },
+    {
+      "id": "subject.reportes.reports-pdf-setting.read",
+      "label": "Ver Configuración de Página PDF"
+    },
+    {
+      "id": "subject.reportes.reports-pdf-setting.write",
+      "label": "Editar Configuración de Página PDF"
+    }
+  ],
+  "pages": [
+    {
+      "id": "reportes.reports",
+      "path": "reports",
+      "permission": "subject.reportes.reports.read"
+    },
+    {
+      "id": "reportes.reports-pdf-setting",
+      "path": "reports-pdf-setting",
+      "permission": "subject.reportes.reports-pdf-setting.read"
+    }
+  ],
+  "menu": [
+    {
+      "id": "reportes.root",
+      "label": "Reportes",
+      "order": 0,
+      "children": [
+        {
+          "id": "reportes.reports",
+          "label": "Plantillas de Reporte",
+          "order": 0,
+          "pageId": "reportes.reports",
+          "path": "reports",
+          "permission": "subject.reportes.reports.read"
+        },
+        {
+          "id": "reportes.reports-pdf-setting",
+          "label": "Configuración de Página PDF",
+          "order": 0,
+          "pageId": "reportes.reports-pdf-setting",
+          "path": "reports-pdf-setting",
+          "permission": "subject.reportes.reports-pdf-setting.read"
+        }
+      ]
+    }
+  ],
+  "storage": {
+    "domain": "shared-nox-postgres"
+  },
+  "resources": {
+    "reports": "reports",
+    "reports-pdf-setting": "reports_pdf_setting"
+  }
+}
