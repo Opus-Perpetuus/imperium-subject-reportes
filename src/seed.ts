@@ -12,7 +12,7 @@ export async function seed_demo(ctx: {
   await ctx.data.insert("reports", {
     id: new_id("reports"),
     name: "Plantillas de Reporte (ejemplo)",
-    description: "Registro semilla del súbdito. Sustituye al migrar desde Mongo.",
+    description: "Registro semilla de la app. Sustituye al migrar desde Mongo.",
     is_active: true,
     ref: "seed-reportes",
     created_at: ts,
