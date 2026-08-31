@@ -28,5 +28,3 @@ jobs:
             -t ghcr.io/opus-perpetuus/subject-reportes:latest \
             --push \
             .
-          docker push ghcr.io/opus-perpetuus/subject-reportes:0.1.0
-          docker push ghcr.io/opus-perpetuus/subject-reportes:latest
