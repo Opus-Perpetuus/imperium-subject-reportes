@@ -31,6 +31,33 @@
       "label": "Editar Configuración de Página PDF"
     }
   ],
+  "menu": [
+    {
+      "id": "reportes.root",
+      "label": "Reportes",
+      "order": 0,
+      "children": [
+        {
+          "id": "reportes.reports",
+          "label": "Plantillas de Reporte",
+          "pageId": "reportes.reports",
+          "order": 0,
+          "path": "reports",
+          "permission": "subject.reportes.reports.read",
+          "icon": "document"
+        },
+        {
+          "id": "reportes.reports-pdf-setting",
+          "label": "Configuración de Página PDF",
+          "pageId": "reportes.reports-pdf-setting",
+          "order": 0,
+          "path": "reports-pdf-setting",
+          "permission": "subject.reportes.reports-pdf-setting.read",
+          "icon": "document"
+        }
+      ]
+    }
+  ],
   "pages": [
     {
       "id": "reportes.reports",
@@ -43,36 +70,12 @@
       "permission": "subject.reportes.reports-pdf-setting.read"
     }
   ],
-  "menu": [
-    {
-      "id": "reportes.root",
-      "label": "Reportes",
-      "order": 0,
-      "children": [
-        {
-          "id": "reportes.reports",
-          "label": "Plantillas de Reporte",
-          "order": 0,
-          "pageId": "reportes.reports",
-          "path": "reports",
-          "permission": "subject.reportes.reports.read"
-        },
-        {
-          "id": "reportes.reports-pdf-setting",
-          "label": "Configuración de Página PDF",
-          "order": 0,
-          "pageId": "reportes.reports-pdf-setting",
-          "path": "reports-pdf-setting",
-          "permission": "subject.reportes.reports-pdf-setting.read"
-        }
-      ]
-    }
-  ],
   "storage": {
-    "domain": "shared-nox-postgres"
+    "domain": "shared-nox-postgres",
+    "files": false
   },
   "resources": {
     "reports": "reports",
-    "reports-pdf-setting": "reports_pdf_setting"
+    "reports-pdf-setting": "reports-pdf-setting"
   }
 }
