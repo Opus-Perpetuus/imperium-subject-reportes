@@ -52,12 +52,12 @@ export const reports_pages: KirletPageDecl[] = [
           form: {
             fields: [
               { name: "name", component: "input-text", label: "Nombre", required: true },
-              { name: "description", component: "input-text", label: "Descripción" },
+              { name: "description", component: "input-textarea", label: "Descripción" },
               { name: "ref", component: "input-text", label: "Referencia (_ref)" },
               { name: "page_size", component: "input-text", label: "page size" },
-              { name: "pdf_setting", component: "input-text", label: "pdf setting" },
+              { name: "pdf_setting", component: "input-datalist", label: "pdf setting", optionsSource: "api://m/subject-reportes/reports-pdf-setting?as=options&limite=1000" },
               { name: "related_model", component: "input-text", label: "related model" },
-              { name: "html_content", component: "input-text", label: "html content" },
+              { name: "html_content", component: "input-code-editor", label: "html content", code_editor_language: "html" },
               { name: "generated_report_name", component: "input-text", label: "generated report name" },
               { name: "excel_format", component: "input-text", label: "excel format" },
               { name: "excel_sheet_name", component: "input-text", label: "excel sheet name" },

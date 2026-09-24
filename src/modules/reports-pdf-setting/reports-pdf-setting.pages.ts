@@ -52,10 +52,28 @@ export const reports_pdf_setting_pages: KirletPageDecl[] = [
           form: {
             fields: [
               { name: "name", component: "input-text", label: "Nombre", required: true },
-              { name: "description", component: "input-text", label: "Descripción" },
+              { name: "description", component: "input-textarea", label: "Descripción" },
               { name: "ref", component: "input-text", label: "Referencia (_ref)" },
-              { name: "page_size_preset", component: "input-text", label: "page size preset" },
-              { name: "orientation", component: "input-text", label: "orientation" },
+              {
+                name: "page_size_preset",
+                component: "input-menu",
+                label: "page size preset",
+                options: [
+                  { value: "A4", label: "A4" },
+                  { value: "Letter", label: "Carta" },
+                  { value: "Legal", label: "Legal" },
+                  { value: "Custom", label: "Personalizado" },
+                ],
+              },
+              {
+                name: "orientation",
+                component: "input-menu",
+                label: "orientation",
+                options: [
+                  { value: "portrait", label: "Vertical" },
+                  { value: "landscape", label: "Horizontal" },
+                ],
+              },
               { name: "custom_width_mm", component: "input-number", label: "custom width mm" },
               { name: "custom_height_mm", component: "input-number", label: "custom height mm" },
               { name: "margin_top_mm", component: "input-number", label: "margin top mm" },
@@ -65,7 +83,7 @@ export const reports_pdf_setting_pages: KirletPageDecl[] = [
               { name: "print_background", component: "input-checkbox", label: "print background" },
               { name: "prefer_css_page_size", component: "input-checkbox", label: "prefer css page size" },
               { name: "display_header_footer", component: "input-checkbox", label: "display header footer" },
-              { name: "scale_percent", component: "input-number", label: "scale percent" },
+              { name: "scale_percent", component: "input-number", label: "scale percent", min: 0, max: 100 },
               { name: "mirror_margins", component: "input-checkbox", label: "mirror margins" },
             ],
           },
