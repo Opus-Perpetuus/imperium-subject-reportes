@@ -8,8 +8,13 @@
  * instala el schema de esta app y arranca bun --watch.
  *
  * Requiere `yarn dev:modular-stack` (o el núcleo en :3100). Override:
- *   CORE_URL  PORT  CORE_SUBJECT_GATEWAY_SECRET  IMPERIUM_MODULAR_ROOT
+ *   CORE_URL  PORT  CORE_SUBJECT_GATEWAY_SECRET (maestro)  IMPERIUM_MODULAR_ROOT
+ *   SUBJECT_AUTH=off SUBJECT_DEV_ADMIN=1  → admin sintético para curl directo a la app
+ *
+ * El maestro solo lo usan dev-attach e install-schemas (herramientas del host);
+ * la app arranca con su secreto derivado, como en el compose.
  */
+import { createHmac } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { spawn } from "node:child_process";
@@ -30,8 +35,13 @@ const CORE = (process.env.CORE_URL ?? "http://127.0.0.1:3100").replace(
   /\/$/,
   "",
 );
-const SECRET =
+const MASTER =
   process.env.CORE_SUBJECT_GATEWAY_SECRET ?? "imperium-subject-dev-secret";
+// Misma fórmula que modular/core/src/imperium/subject-secret.ts.
+const APP_SECRET = createHmac("sha256", MASTER)
+  .update(`imperium-subject-gateway:v1:subject-${slug}`)
+  .digest("hex");
+const AUTH = process.env.SUBJECT_AUTH ?? "on";
 const CATALOG_ORDER = [
   "almacen",
   "configuraciones-de-vista",
@@ -52,6 +62,7 @@ const CATALOG_ORDER = [
   "turnos",
   "vehiculos",
   "ventas",
+  "tienda",
 ];
 const idx = CATALOG_ORDER.indexOf(slug);
 const PORT = Number(
@@ -129,7 +140,7 @@ async function attach(url: string | null) {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "x-core-subject-gateway-secret": SECRET,
+      "x-core-subject-gateway-secret": MASTER,
     },
     body: JSON.stringify({ slug, url }),
   });
@@ -188,10 +199,10 @@ async function main() {
         KIRLET_TECHNICAL_ID: `subject-${slug}`,
         CORE_DATA_URL: CORE,
         NOX_DATA_URL: CORE,
-        CORE_SUBJECT_GATEWAY_SECRET: SECRET,
-        NOX_KIRLET_GATEWAY_SECRET: SECRET,
-        SUBJECT_AUTH: "off",
-        KIRLET_AUTH: "off",
+        CORE_SUBJECT_GATEWAY_SECRET: APP_SECRET,
+        NOX_KIRLET_GATEWAY_SECRET: APP_SECRET,
+        SUBJECT_AUTH: AUTH,
+        KIRLET_AUTH: AUTH,
       },
     },
   );
@@ -219,7 +230,10 @@ async function main() {
   await attach(public_url);
   const inst = await fetch(
     `${CORE}/api/subjects/install-schemas/subject-${slug}`,
-    { method: "POST" },
+    {
+      method: "POST",
+      headers: { "x-core-subject-gateway-secret": MASTER },
+    },
   );
   console.log(
     `subject-dev-local: schema ${inst.status}  adjunto ${public_url}`,

@@ -37,7 +37,8 @@ export async function seed_demo(ctx: {
       margin_left_mm: preset.margins,
       print_background: true,
       prefer_css_page_size: true,
-      display_header_footer: false,
+      /* Documentos de varias hojas numeran páginas; etiquetas y credenciales no. */
+      display_header_footer: preset.page_size_preset !== "Custom",
       scale_percent: 100,
       mirror_margins: false,
       created_at: ts,

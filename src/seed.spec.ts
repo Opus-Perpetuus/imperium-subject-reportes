@@ -13,6 +13,8 @@ describe("seed", () => {
     expect(await data.count("reports_pdf_setting")).toBe(DEFAULT_PAGE_SETTINGS.length);
     expect(await data.count("reports")).toBe(0);
     const [credencial] = data.ensure_table("reports_pdf_setting").filter((row) => row.ref === "hoja-credencial-cr80");
-    expect(credencial).toMatchObject({ page_size_preset: "Custom", custom_width_mm: 85.6, custom_height_mm: 53.98, margin_top_mm: 0 });
+    expect(credencial).toMatchObject({ page_size_preset: "Custom", custom_width_mm: 85.6, custom_height_mm: 53.98, margin_top_mm: 0, display_header_footer: false });
+    const [carta] = data.ensure_table("reports_pdf_setting").filter((row) => row.ref === "hoja-carta-horizontal");
+    expect(carta).toMatchObject({ orientation: "landscape", display_header_footer: true });
   });
 });
