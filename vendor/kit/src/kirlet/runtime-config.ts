@@ -61,7 +61,7 @@ export function resolve_kirlet_config(
   if (auth_off && !auth_disabled && !auth_off_ignored_logged) {
     auth_off_ignored_logged = true;
     console.warn(
-      `[${technical_id}] SUBJECT_AUTH=off ignorado: hay secreto de gateway, se exige identidad firmada (SUBJECT_DEV_ADMIN=1 para el admin sintético)`,
+      `[${technical_id}] auth off (SUBJECT_AUTH/KIRLET_AUTH) ignorado: hay secreto de gateway, se exige identidad firmada (SUBJECT_DEV_ADMIN=1 para el admin sintético)`,
     );
   }
   const nox_data_url =

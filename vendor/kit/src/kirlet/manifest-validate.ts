@@ -351,7 +351,7 @@ export function validate_kirlet_manifest(input: unknown): KirletManifestValidati
   }
 
   let depends_on: string[] | undefined;
-  if (input["dependsOn"] !== undefined) {
+  if (input["dependsOn"] !== undefined && input["dependsOn"] !== null) {
     depends_on = validate_depends_on(
       input["dependsOn"],
       typeof input["technicalId"] === "string" ? input["technicalId"] : "",

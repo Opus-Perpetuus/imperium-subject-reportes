@@ -421,6 +421,12 @@ describe("dependsOn", () => {
     expect(issues_of(["kirlet-hr"]).some((i) => i.path === "$.dependsOn[0]")).toBe(true);
   });
 
+  test("dependsOn null cuenta como ausente, igual que en el núcleo", () => {
+    const result = validate_kirlet_manifest({ ...hr_manifest_0_3, dependsOn: null });
+    expect(result.ok).toBe(true);
+    if (result.ok) expect("dependsOn" in result.manifest).toBe(false);
+  });
+
   test("dependsOn que no es arreglo se rechaza", () => {
     expect(issues_of("subject-almacen").some((i) => i.path === "$.dependsOn")).toBe(true);
   });
