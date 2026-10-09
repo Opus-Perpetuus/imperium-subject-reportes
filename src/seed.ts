@@ -12,11 +12,44 @@ export const DEFAULT_PAGE_SETTINGS = [
   { ref: "hoja-etiqueta-4x6", name: "Etiqueta de envío 4 × 6 in", page_size_preset: "Custom", orientation: "portrait", margins: 4, width: 101.6, height: 152.4 },
 ] as const;
 
+/** Plantilla medida de morosos predial. La cuenta 15920100303115913 es otro adeudo y no entra. */
+export const MOROSOS_PREDIAL = {
+  ref: "plantilla-morosos-predial",
+  name: "Morosos predial",
+  related_model: "predio",
+  html_content: "tipo de carga A, recaudadora 1, municipio 006, cuenta predial R000007",
+} as const;
+
 export async function seed_demo(ctx: {
   data: KirletDataClient;
   nox: NoxServices;
   technical_id: string;
 }): Promise<void> {
+  await seed_pages(ctx);
+  await seed_morosos(ctx);
+}
+
+async function seed_morosos(ctx: { data: KirletDataClient }): Promise<void> {
+  const found = await ctx.data.findMany("reports", {
+    where: { ref: MOROSOS_PREDIAL.ref },
+    limit: 1,
+  });
+  if (found.length > 0) return;
+  const ts = now_iso();
+  await ctx.data.insert("reports", {
+    id: new_id("reports-"),
+    name: MOROSOS_PREDIAL.name,
+    description: "Plantilla de morosos del predial.",
+    is_active: true,
+    ref: MOROSOS_PREDIAL.ref,
+    related_model: MOROSOS_PREDIAL.related_model,
+    html_content: MOROSOS_PREDIAL.html_content,
+    created_at: ts,
+    updated_at: ts,
+  });
+}
+
+async function seed_pages(ctx: { data: KirletDataClient }): Promise<void> {
   const existing = await ctx.data.count("reports_pdf_setting");
   if (existing > 0) return;
   const ts = now_iso();
